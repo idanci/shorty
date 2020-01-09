@@ -8,7 +8,7 @@ The challenge, if you choose to accept it, is to create a micro service to short
 ## Rules
 
 1. The service must expose HTTP endpoints according to the definition below.
-2. Use [docker](https://docs.docker.com/) and [docker compose](https://docs.docker.com/compose/overview/), the only command needed to run your project must be `docker-compose up` 
+2. Use [docker](https://docs.docker.com/) and [docker compose](https://docs.docker.com/compose/overview/), the only command needed to run your project must be `docker-compose up`
 3. It must be well tested, it must also be possible to run the entire test suit with a single command from the directory of your repository.
 4. The service must be versioned using git and submitted by making a Pull Request against this repository, git history **should** be meaningful.
 5. You don't have to use a datastore, you can have all data in memory, but we'd be more impressed if you do use one.
@@ -130,5 +130,3 @@ lastSeenDate      | date of the last time the a redirect was issued, not present
 Error | Description
 ----- | ------------
 404   | The ```shortcode``` cannot be found in the system
-
-
