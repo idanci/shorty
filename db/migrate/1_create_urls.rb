@@ -1,13 +1,23 @@
+# frozen_string_literal: true
+
 Sequel.migration do
-  change do
+  up do
     create_table(:urls) do
       primary_key :id
 
-      String :url, null: false
+      column :url, :text, null: false
+      column :shortcode, :varchar, null: false, size: 6, index: true
+      column :last_visit, :timestamp
+      column :redirect_count, :integer, null: false, default: 0, index: true
 
-      column :shortcode, :varchar, null: false, size: 6
+      column :created_at, :timestamp
+      column :updated_at, :timestamp
 
       constraint(:shortcode_valid, shortcode: /^[0-9a-zA-Z_]{6}$/)
     end
+  end
+
+  down do
+    drop_table :urls
   end
 end
