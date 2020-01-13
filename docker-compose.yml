@@ -1,0 +1,24 @@
+version: '3'
+services:
+  db:
+    hostname: db
+    build:
+      context: ./Docker
+      dockerfile: db.Dockerfile
+    image: postgres
+    volumes:
+      - ./tmp/db:/var/lib/postgresql/data
+  app:
+    build: .
+    hostname: app
+    command: ["./wait-for-it.sh", "db:5432", "--", "bundle", "exec", "rackup", "--host", "0.0.0.0", "-p", "9292"]
+    volumes:
+      - .:/shorty
+    ports:
+      - "9292:9292"
+    depends_on:
+      - db
+    environment:
+      WAIT_HOSTS: postgres:5432
+      DB_HOST: db
+      RACK_ENV: development
