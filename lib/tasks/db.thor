@@ -1,20 +1,40 @@
 # frozen_string_literal: true
 
+require_relative '../../boot'
 require 'pathname'
-require 'sequel'
 
 class Db < Thor
   include Thor::Actions
 
-  APP_ROOT = Pathname.new(File.expand_path('../../', __dir__))
+  DB_PATH = Pathname.new(File.expand_path('../../db', __dir__))#.join('db/migrate')
 
-  desc 'migrate', 'Migrate databases'
+  desc 'migrate', 'Migrate database'
   def migrate
-    env = ENV['RACK_ENV'] || 'development'
-    host = ENV['DB_HOST'] || 'db'
-
-    db = Sequel.connect(adapter: :postgres, database: "shorty_#{env}", host: host, user: 'shortyusr')
     Sequel.extension :migration
-    Sequel::Migrator.run(db, APP_ROOT.join('db/migrate'))
+    Sequel::Migrator.run(DB, DB_PATH.join('migrate'))
+
+    dump_schema
+  end
+
+  desc 'rollback', 'Rollback database'
+  def rollback
+    version = if DB.tables.include?(:schema_info)
+      DB[:schema_info].first[:version]
+    end || 0
+
+    target = version.zero? ? 0 : (version - 1)
+
+    Sequel.extension :migration
+    Sequel::Migrator.run(DB, DB_PATH.join('migrate'), :target => target.to_i)
+
+    dump_schema
+  end
+
+  private
+
+  def dump_schema
+    DB.extension(:schema_dumper)
+    schema = DB.dump_schema_migration(indexes: true, foreign_keys: true)
+    File.open(DB_PATH.join('schema.rb'), 'w') {|f| f.write(schema) }
   end
 end

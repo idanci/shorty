@@ -3,8 +3,11 @@ Sequel.migration do
     create_table(:urls) do
       primary_key :id
 
-      String :location, null: false
-      String :shortcode, null: false
+      String :url, null: false
+
+      column :shortcode, :varchar, null: false, size: 6
+
+      constraint(:shortcode_valid, shortcode: /^[0-9a-zA-Z_]{6}$/)
     end
   end
 end

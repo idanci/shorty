@@ -1,8 +1,12 @@
 require 'sequel'
+require 'pry-byebug'
 
 Sequel::Model.plugin :json_serializer
 
-DB = Sequel.connect(adapter: :postgres, database: "shorty_#{ENV['RACK_ENV']}", host: ENV['DB_HOST'], user: 'shortyusr')
+host = ENV['DB_HOST'] || 'localhost'
+env = ENV['RACK_ENV'] || 'development'
+
+DB = Sequel.connect(adapter: :postgres, database: "shorty_#{env}", host: host, user: 'shortyusr')
 
 Dir[File.expand_path('../models/**/*.rb', __FILE__)].each do |file|
   dirname = File.dirname(file)
