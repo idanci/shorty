@@ -6,7 +6,7 @@ Sequel.migration do
       primary_key :id
 
       column :url, :text, null: false
-      column :shortcode, :varchar, null: false, size: 6, index: true
+      column :shortcode, :varchar, null: false, size: 6, index: true, unique: true
       column :last_visit, :timestamp
       column :redirect_count, :integer, null: false, default: 0, index: true
 

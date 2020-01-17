@@ -15,6 +15,7 @@ Sequel.migration do
       
       index [:redirect_count]
       index [:shortcode]
+      index [:shortcode], :name=>:urls_shortcode_key, :unique=>true
     end
   end
 end
