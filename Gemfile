@@ -11,3 +11,10 @@ group :development, :test do
   gem 'pry'
   gem 'pry-byebug'
 end
+
+group :test do
+  gem 'rack-test'
+  gem 'rspec'
+  gem 'database_cleaner'
+  gem 'fabrication'
+end
