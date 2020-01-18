@@ -8,6 +8,7 @@ get '/:shortcode' do
   url = Url.find(shortcode: params[:shortcode])
 
   if url
+    url.increase_redirect_count
     redirect url.url, 302
   else
     halt 404

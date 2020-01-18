@@ -2,7 +2,15 @@
 
 class Url < Sequel::Model
   plugin :timestamps
+  plugin :touch
   plugin :validation_helpers
+
+  def increase_redirect_count
+    DB.transaction do
+      set(redirect_count: redirect_count + 1)
+      touch(:last_visit)
+    end
+  end
 
   def validate
     super
