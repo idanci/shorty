@@ -15,6 +15,7 @@ end
 group :test do
   gem 'rack-test'
   gem 'rspec'
+  gem 'timecop'
   gem 'database_cleaner'
   gem 'fabrication'
 end

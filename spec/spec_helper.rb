@@ -4,6 +4,7 @@ require 'rack/test'
 require 'rspec'
 require 'database_cleaner'
 require 'fabrication'
+require 'timecop'
 
 ENV['RACK_ENV'] = 'test'
 
@@ -15,7 +16,15 @@ module RSpecMixin
   def app() API end
 end
 
+
+module Helpers
+  def parsed_response
+    @parsed_response ||= JSON.parse(last_response.body)
+  end
+end
+
 RSpec.configure do |config|
+  config.include Helpers
   config.include RSpecMixin
 
   config.before(:suite) do

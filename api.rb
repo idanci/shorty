@@ -16,12 +16,13 @@ class API < Sinatra::Base
   end
 
   get '/:shortcode/stats' do
+    url = find_url
 
-    {
-      'startDate': '2012-04-23T18:25:43.511Z',
-      'lastSeenDate': '2012-04-23T18:25:43.511Z',
-      'redirectCount': 1
-    }.to_json
+    {}.tap do |response|
+      response['startDate'] = url.created_at.utc.iso8601
+      response['lastSeenDate'] = url.last_visit.utc.iso8601 if url.last_visit
+      response['redirectCount'] = url.redirect_count
+    end.to_json
   end
 
   post '/shorten' do
