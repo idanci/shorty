@@ -5,7 +5,13 @@ require 'sinatra'
 get '/:shortcode' do
   content_type :json
 
-  redirect 'http://www.example.com', 302
+  url = Url.find(shortcode: params[:shortcode])
+
+  if url
+    redirect url.url, 302
+  else
+    halt 404
+  end
 end
 
 get '/:shortcode/stats' do
