@@ -28,8 +28,8 @@ class Url < Sequel::Model
   def validate
     super
 
-    validates_presence [:url, :shortcode]
-    validates_format SHORTCODE_REGEX, :shortcode, message: 'is not a valid shortcode'
+    validates_presence :url
     validates_unique :shortcode
+    validates_format SHORTCODE_REGEX, :shortcode, message: 'is not a valid shortcode'
   end
 end
