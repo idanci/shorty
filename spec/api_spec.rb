@@ -26,8 +26,11 @@ describe 'Api' do
       it 'increments redirect_count and updates last_visit' do
         expect {
           get "/#{existing_url.shortcode}"
-        }.to change { existing_url.reload.redirect_count }.by(+1)
-         .and change { existing_url.reload.last_visit }
+        }.to change {
+          existing_url.reload.redirect_count
+        }.by(+1).and change {
+          existing_url.reload.last_visit
+        }
       end
     end
 
@@ -120,7 +123,10 @@ describe 'Api' do
     context 'invalid request' do
       before do
         existing_url
-        expect { post '/shorten', params }.not_to change { Url.count }
+
+        expect {
+          post '/shorten', params
+        }.not_to change { Url.count }
       end
 
       context 'url missing' do

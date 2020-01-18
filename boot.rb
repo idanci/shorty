@@ -12,10 +12,10 @@ DB = Sequel.connect(
   user: 'shortyusr'
 )
 
-Dir[File.expand_path('../models/**/*.rb', __FILE__)].each do |file|
+Dir[File.expand_path('models/**/*.rb', __dir__)].each do |file|
   dirname = File.dirname(file)
   file_basename = File.basename(file, File.extname(file))
   require "#{dirname}/#{file_basename}"
 end
 
-require File.expand_path('../api',  __FILE__)
+require File.expand_path('api', __dir__)

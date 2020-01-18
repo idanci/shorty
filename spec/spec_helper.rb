@@ -8,14 +8,16 @@ require 'timecop'
 
 ENV['RACK_ENV'] = 'test'
 
-require File.expand_path '../../boot.rb', __FILE__
-require File.expand_path '../../spec/fabricators/url_fabricator.rb', __FILE__
+require File.expand_path('../boot.rb', __dir__)
+require File.expand_path('../spec/fabricators/url_fabricator.rb', __dir__)
 
 module RSpecMixin
   include Rack::Test::Methods
-  def app() API end
-end
 
+  def app
+    API
+  end
+end
 
 module Helpers
   def parsed_response

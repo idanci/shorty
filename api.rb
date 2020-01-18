@@ -33,11 +33,13 @@ class API < Sinatra::Base
     { 'shortcode': Url.create(params.slice(:url, :shortcode)).shortcode }.to_json
   end
 
+  # rubocop:disable Metrics/AbcSize
   def validate_request
     halt(400) if params[:url].to_s.empty?
     halt(422) if !params[:shortcode].nil? && !params[:shortcode].to_s.match?(Url::SHORTCODE_REGEX)
     halt(409) if find_url(raise_on_missing: false)
   end
+  # rubocop:enable Metrics/AbcSize
 
   def find_url(raise_on_missing: true)
     found_url = Url.find(shortcode: params[:shortcode])

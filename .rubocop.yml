@@ -1,0 +1,25 @@
+require:
+  - 'rubocop-sequel'
+
+AllCops:
+  Exclude:
+      - 'db/**/*'
+      - 'lib/tasks/**/*'
+
+Lint/AmbiguousBlockAssociation:
+  Exclude:
+    - 'spec/**/*'
+
+Layout/LineLength:
+  Max: 120
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'
+
+Style/Documentation:
+  Enabled: false
+
+Style/MultilineBlockChain:
+  Exclude:
+    - 'spec/**/*'

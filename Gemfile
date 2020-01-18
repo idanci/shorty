@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
 ruby '2.6.5'
@@ -10,12 +12,14 @@ gem 'thor'
 group :development, :test do
   gem 'pry'
   gem 'pry-byebug'
+  gem 'rubocop'
+  gem 'rubocop-sequel'
 end
 
 group :test do
+  gem 'database_cleaner'
+  gem 'fabrication'
   gem 'rack-test'
   gem 'rspec'
   gem 'timecop'
-  gem 'database_cleaner'
-  gem 'fabrication'
 end
