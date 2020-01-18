@@ -26,20 +26,23 @@ class API < Sinatra::Base
   end
 
   post '/shorten' do
-    data = {
-      'url': 'http://example.com',
-      'shortcode': 'example'
-    }
+    validate_request
 
-    response = {
-      'shortcode': data['shortcode']
-    }
+    status 201
 
-    response.to_json
+    { 'shortcode': Url.create(params.slice(:url, :shortcode)).shortcode }.to_json
   end
 
-  def find_url
+  def validate_request
+    halt(400) if params[:url].to_s.empty?
+    halt(422) if !params[:shortcode].nil? && !params[:shortcode].to_s.match?(Url::SHORTCODE_REGEX)
+    halt(409) if find_url(raise_on_missing: false)
+  end
+
+  def find_url(raise_on_missing: true)
     found_url = Url.find(shortcode: params[:shortcode])
-    found_url || halt(404)
+    return found_url if found_url
+
+    halt(404) if raise_on_missing
   end
 end

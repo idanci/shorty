@@ -80,16 +80,17 @@ describe 'Api' do
   describe 'POST /shorten' do
     let(:url_param) { 'http://example.com' }
     let(:shortcode_param) { 'qwe123' }
-    let(:json_params) do
+    let(:params) do
       {
         url: url_param,
         shortcode: shortcode_param
-      }.to_json
+      }
     end
 
     context 'valid request' do
       before do
-        expect { post '/shorten', json_params }.to change { Url.count }.by(+1)
+        existing_url
+        expect { post '/shorten', params }.to change { Url.count }.by(+1)
       end
 
       context 'shortcode is empty' do
@@ -118,7 +119,8 @@ describe 'Api' do
 
     context 'invalid request' do
       before do
-        expect { post '/shorten', json_params }.not_to change { Url.count }
+        existing_url
+        expect { post '/shorten', params }.not_to change { Url.count }
       end
 
       context 'url missing' do
