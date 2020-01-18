@@ -4,8 +4,8 @@ require 'sinatra/base'
 
 class API < Sinatra::Base
   before do
-    content_type :json
     headers 'Content-Type' => 'application/json; charset=utf-8'
+    params.merge!(JSON.parse(request.body.read)) if request.post?
   end
 
   get '/:shortcode' do
@@ -16,6 +16,8 @@ class API < Sinatra::Base
   end
 
   get '/:shortcode/stats' do
+    content_type :json
+
     url = find_url
 
     {}.tap do |response|
@@ -26,6 +28,8 @@ class API < Sinatra::Base
   end
 
   post '/shorten' do
+    content_type :json
+
     validate_request
 
     status 201

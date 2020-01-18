@@ -87,7 +87,7 @@ describe 'Api' do
       {
         url: url_param,
         shortcode: shortcode_param
-      }
+      }.to_json
     end
 
     context 'valid request' do
