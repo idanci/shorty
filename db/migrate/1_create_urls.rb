@@ -8,7 +8,7 @@ Sequel.migration do
       column :url, :text, null: false
       column :shortcode, :varchar, null: false, size: 6, index: true, unique: true
       column :last_visit, :timestamp
-      column :redirect_count, :integer, null: false, default: 0, index: true
+      column :redirect_count, :integer, null: false, default: 0
 
       column :created_at, :timestamp
       column :updated_at, :timestamp

@@ -13,7 +13,6 @@ Sequel.migration do
       column :created_at, "timestamp without time zone"
       column :updated_at, "timestamp without time zone"
       
-      index [:redirect_count]
       index [:shortcode]
       index [:shortcode], :name=>:urls_shortcode_key, :unique=>true
     end
