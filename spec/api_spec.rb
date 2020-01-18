@@ -32,7 +32,7 @@ describe 'Api' do
     end
 
     context 'shortcode does not exist' do
-      it 'returns 404' do
+      it 'returns 404 status' do
         get "/unknown"
 
         expect(last_response.status).to eq(404)
@@ -69,10 +69,32 @@ describe 'Api' do
     end
 
     context 'shortcode does not exist' do
-      it 'returns 404' do
+      it 'returns 404 status' do
         get "/unknown/stats"
 
         expect(last_response.status).to eq(404)
+      end
+    end
+  end
+
+  describe 'POST /shorten' do
+    context 'valid request' do
+      context 'shortcode is empty' do
+        it 'saves the url and returns assigned shortcode'
+      end
+      context 'shortcode is present' do
+        it 'saves the url and returns assigned shortcode'
+      end
+    end
+    context 'invalid request' do
+      context 'url missing' do
+        it 'returns 400 status'
+      end
+      context 'shortcode already in use' do
+        it 'returns 409 status'
+      end
+      context 'shortcode invalid' do
+        it 'returns 422 status'
       end
     end
   end
