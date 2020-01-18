@@ -12,7 +12,7 @@ require File.expand_path '../../spec/fabricators/url_fabricator.rb', __FILE__
 
 module RSpecMixin
   include Rack::Test::Methods
-  def app() Sinatra::Application end
+  def app() API end
 end
 
 RSpec.configure do |config|

@@ -1,41 +1,44 @@
 # frozen_string_literal: true
 
-require 'sinatra'
+require 'sinatra/base'
 
-get '/:shortcode' do
-  content_type :json
+class API < Sinatra::Base
+  before do
+    content_type :json
+    headers 'Content-Type' => 'application/json; charset=utf-8'
+  end
 
-  url = Url.find(shortcode: params[:shortcode])
+  get '/:shortcode' do
+    url = find_url
 
-  if url
     url.increase_redirect_count
     redirect url.url, 302
-  else
-    halt 404
   end
-end
 
-get '/:shortcode/stats' do
-  content_type :json
+  get '/:shortcode/stats' do
 
-  {
-    'startDate': '2012-04-23T18:25:43.511Z',
-    'lastSeenDate': '2012-04-23T18:25:43.511Z',
-    'redirectCount': 1
-  }.to_json
-end
+    {
+      'startDate': '2012-04-23T18:25:43.511Z',
+      'lastSeenDate': '2012-04-23T18:25:43.511Z',
+      'redirectCount': 1
+    }.to_json
+  end
 
-post '/shorten' do
-  content_type :json
+  post '/shorten' do
+    data = {
+      'url': 'http://example.com',
+      'shortcode': 'example'
+    }
 
-  data = {
-    'url': 'http://example.com',
-    'shortcode': 'example'
-  }
+    response = {
+      'shortcode': data['shortcode']
+    }
 
-  response = {
-    'shortcode': data['shortcode']
-  }
+    response.to_json
+  end
 
-  response.to_json
+  def find_url
+    found_url = Url.find(shortcode: params[:shortcode])
+    found_url || halt(404)
+  end
 end
